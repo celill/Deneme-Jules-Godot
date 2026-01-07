@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://enemy_scene_uid" path="res://src/scenes/Enemy.tscn" id="2_enemy"]
 [ext_resource type="PackedScene" uid="uid://player_scene_uid" path="res://src/scenes/Player.tscn" id="3_player"]
 [ext_resource type="PackedScene" uid="uid://ui_scene_uid" path="res://src/scenes/UI.tscn" id="4_ui"]
+[ext_resource type="PhysicsMaterial" uid="uid://no_friction_mat_uid" path="res://src/materials/NoFriction.tres" id="5_mat"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(200, 1, 200)
@@ -25,6 +26,30 @@ size = Vector3(5, 5, 5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_obstacle"]
 size = Vector3(5, 5, 5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_long"]
+size = Vector3(200, 10, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_short"]
+size = Vector3(2, 10, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall_outer"]
+albedo_color = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_long"]
+material = SubResource("StandardMaterial3D_wall_outer")
+size = Vector3(200, 10, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_short"]
+material = SubResource("StandardMaterial3D_wall_outer")
+size = Vector3(2, 10, 200)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ramp"]
+size = Vector3(10, 2, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ramp"]
+material = SubResource("StandardMaterial3D_wall")
+size = Vector3(10, 2, 20)
+
 [node name="Arena" type="Node3D"]
 script = ExtResource("1_main")
 enemy_scene = ExtResource("2_enemy")
@@ -37,6 +62,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 collision_mask = 6
+physics_material_override = ExtResource("5_mat")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("BoxShape3D_floor")
@@ -65,3 +91,48 @@ mesh = SubResource("BoxMesh_obstacle")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Obstacle2"]
 shape = SubResource("BoxShape3D_obstacle")
+
+[node name="WallNorth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -100)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallNorth"]
+shape = SubResource("BoxShape3D_wall_long")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallNorth"]
+mesh = SubResource("BoxMesh_wall_long")
+
+[node name="WallSouth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 100)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallSouth"]
+shape = SubResource("BoxShape3D_wall_long")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallSouth"]
+mesh = SubResource("BoxMesh_wall_long")
+
+[node name="WallEast" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallEast"]
+shape = SubResource("BoxShape3D_wall_short")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallEast"]
+mesh = SubResource("BoxMesh_wall_short")
+
+[node name="WallWest" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallWest"]
+shape = SubResource("BoxShape3D_wall_short")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallWest"]
+mesh = SubResource("BoxMesh_wall_short")
+
+[node name="Ramp1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, -10, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ramp1"]
+shape = SubResource("BoxShape3D_ramp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ramp1"]
+mesh = SubResource("BoxMesh_ramp")

@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-@export var speed = 40.0
+@export var speed = 100.0
 @export var damage = 10.0
 @export var health = 30.0
 @export var explosion_scene : PackedScene
@@ -12,7 +12,7 @@ func _ready():
 	player = get_tree().get_first_node_in_group("Player")
 
 func _physics_process(delta):
-	if player:
+	if is_instance_valid(player):
 		var direction = (player.global_position - global_position).normalized()
 		direction.y = 0 # Keep movement on plane
 		apply_central_force(direction * speed)
@@ -42,11 +42,9 @@ func _on_body_entered(body):
 
 		# Simple knockback
 		var dir = (body.global_position - global_position).normalized()
-		body.apply_impulse(dir * 10.0)
+		body.apply_impulse(dir * 20.0)
 
-		# Enemy dies on impact (kamikaze style) or just bounces?
-		# Let's make them bounce but apply damage.
-		# For vampire survivor style, usually enemies just touch you and you take damage continuously or on hit.
-		# Given it's car combat, let's keep the enemy alive but bounce them back hard.
+		# Remove the heavy bounce back to let them ram into the player
+		# Just a small push back to avoid clipping
 		var bounce_dir = (global_position - body.global_position).normalized()
-		apply_impulse(bounce_dir * 20.0)
+		apply_impulse(bounce_dir * 5.0)

@@ -3,8 +3,8 @@ extends RigidBody3D
 signal health_changed(current, max)
 signal player_died
 
-@export var acceleration = 50.0
-@export var steering_speed = 3.0
+@export var acceleration = 150.0
+@export var steering_speed = 5.0
 @export var drift_factor = 0.95 # Lower = more drift, Higher = more grip
 @export var max_health = 100.0
 

@@ -9,6 +9,7 @@ var player : Node3D = null
 var score = 0
 var health_bar : ProgressBar = null
 var score_label : Label = null
+var game_over = false
 
 func _ready():
 	player = get_tree().get_first_node_in_group("Player")
@@ -21,6 +22,11 @@ func _ready():
 		player.connect("player_died", Callable(self, "_on_player_died"))
 
 func _process(delta):
+	if game_over:
+		if Input.is_action_just_pressed("ui_accept"): # Space / Enter
+			get_tree().reload_current_scene()
+		return
+
 	if not is_instance_valid(player):
 		return
 
@@ -30,7 +36,7 @@ func _process(delta):
 		spawn_timer = spawn_interval
 
 func spawn_enemy():
-	if not enemy_scene:
+	if not enemy_scene or not is_instance_valid(player):
 		return
 
 	var angle = randf() * PI * 2
@@ -50,8 +56,9 @@ func _on_player_health_changed(current, max_hp):
 		health_bar.value = current
 
 func _on_player_died():
+	game_over = true
 	if score_label:
-		score_label.text = "GAME OVER\nFinal Score: " + str(score)
+		score_label.text = "GAME OVER\nFinal Score: " + str(score) + "\nPress SPACE to Restart"
 
 func _on_enemy_killed():
 	# tree_exited is called on queue_free(), but also on scene change.
