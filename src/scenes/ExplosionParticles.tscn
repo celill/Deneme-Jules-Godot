@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://explosion_scene_uid"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_expl"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -9.8, 0)
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_expl"]
+albedo_color = Color(1, 0.5, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.2, 0, 1)
+emission_energy_multiplier = 3.0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_expl"]
+material = SubResource("StandardMaterial3D_expl")
+
+[node name="ExplosionParticles" type="GPUParticles3D"]
+emitting = false
+amount = 20
+lifetime = 1.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_expl")
+draw_pass_1 = SubResource("QuadMesh_expl")

@@ -1,0 +1,19 @@
+config_version=5
+
+[application]
+
+config/name="VampireDrift"
+config/features=PackedStringArray("4.3", "Forward Plus")
+run/main_scene="res://src/scenes/Arena.tscn"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+[layer_names]
+
+3d_physics/layer_1="World"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Enemy"
+3d_physics/layer_4="Projectile"
