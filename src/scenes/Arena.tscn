@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://arena_scene_uid"]
+[gd_scene load_steps=19 format=3 uid="uid://arena_scene_uid"]
 
 [ext_resource type="Script" path="res://src/scripts/main_game.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://enemy_scene_uid" path="res://src/scenes/Enemy.tscn" id="2_enemy"]

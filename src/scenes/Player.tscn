@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://player_scene_uid"]
+[gd_scene load_steps=8 format=3 uid="uid://player_scene_uid"]
 
 [ext_resource type="Script" path="res://src/scripts/car_controller.gd" id="1_script"]
 [ext_resource type="Script" path="res://src/scripts/weapon_system.gd" id="2_weapon"]
 [ext_resource type="PackedScene" uid="uid://projectile_scene_uid" path="res://src/scenes/Projectile.tscn" id="3_proj"]
+[ext_resource type="PhysicsMaterial" uid="uid://no_friction_mat_uid" path="res://src/materials/NoFriction.tres" id="4_mat"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_player"]
 size = Vector3(2, 1, 4)
